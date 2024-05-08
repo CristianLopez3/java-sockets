@@ -1,6 +1,5 @@
 package org.cristian.server;
 
-import org.cristian.client.*;
 
 import javax.swing.*;
 

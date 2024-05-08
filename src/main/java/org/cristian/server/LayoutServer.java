@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -38,7 +39,7 @@ class LayoutServer extends JFrame implements Runnable {
             String nick, ip, message;
             SendPackage receivedData;
 
-            while(true){
+            while (true) {
                 Socket mySocket = server.accept();
                 ObjectInputStream payload = new ObjectInputStream(mySocket.getInputStream());
                 receivedData = (SendPackage) payload.readObject();
@@ -48,6 +49,13 @@ class LayoutServer extends JFrame implements Runnable {
                 message = receivedData.getMessage();
 
                 areaText.append(String.format("%s: %s for %s\n", nick, message, ip));
+
+                Socket sendToClient = new Socket(ip, 9090);
+                ObjectOutputStream sendPayload = new ObjectOutputStream(sendToClient.getOutputStream());
+                sendPayload.writeObject(receivedData);
+
+                sendToClient.close();
+                sendPayload.close();
                 mySocket.close();
 
             }

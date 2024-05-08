@@ -3,7 +3,7 @@ package org.cristian.client;
 
 import javax.swing.*;
 
-class LayoutClient extends JFrame {
+public class LayoutClient extends JFrame {
 
     public LayoutClient() {
 
